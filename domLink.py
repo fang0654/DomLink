@@ -1,6 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from ConfigParser import RawConfigParser
+from configparser import RawConfigParser
 from argparse import ArgumentParser
 from requests import get
 import sys
@@ -14,12 +14,13 @@ __version__ = '0.1.2'
 
 def set_log_level(args_level):
     log_level = logging.ERROR
-    if args_level == 1:
-        log_level = logging.WARN
-    elif args_level == 2:
-        log_level = logging.INFO
-    elif args_level > 2:
-        log_level = logging.DEBUG
+    if args_level:
+        if args_level == 1:
+            log_level = logging.WARN
+        elif args_level == 2:
+            log_level = logging.INFO
+        elif args_level > 2:
+            log_level = logging.DEBUG
     logging.basicConfig(level=log_level)
 
 
@@ -122,7 +123,7 @@ def query_yes_no(question, default='yes'):
         raise ValueError('invalid default answer: {}'.format(default))
 
     while True:
-        choice = raw_input(question + prompt).lower()
+        choice = input(question + prompt).lower()
         if default is not None and choice == '':
             return valid[default]
         elif choice in valid:
@@ -132,12 +133,12 @@ def query_yes_no(question, default='yes'):
 
 
 def banner():
-	print "DomLink Domain Discovery Tool"
-	print "Author: Vincent Yiu (@vysecurity)"
-	print "Contributors: John Bond (@b4ldr)"
-	print "https://www.github.com/vysec/DomLink"
-	print "Version: {}".format(__version__)
-	print ""
+	print("DomLink Domain Discovery Tool")
+	print ("Author: Vincent Yiu (@vysecurity)")
+	print ("Contributors: John Bond (@b4ldr)")
+	print ("https://www.github.com/vysec/DomLink")
+	print ("Version: {}".format(__version__))
+	print ("")
 
 def main():
     banner()
@@ -153,9 +154,9 @@ def main():
         exit()
 
     results = parse_whois(base_url, args.domain)
-    while any(results['domains'].values() +
-            results['companies'].values() +
-            results['emails'].values()):
+    while any(list(results['domains'].values()) +
+            list(results['companies'].values()) +
+            list(results['emails'].values())):
         if args.domains:
             for domain, check in results['domains'].items():
                 if not check:
@@ -208,7 +209,7 @@ def main():
                 [k for k in results['domains'].keys() if k not in blacklist['domains']]),
             '\n'.join(
                 [k for k in results['emails'].keys() if k not in blacklist['emails']]))
-    print output
+    print(output)
     if args.output:
         with open(args.output, 'w') as text_file:
             text_file.write(output)
