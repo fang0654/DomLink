@@ -1,5 +1,7 @@
 ﻿# DomLink
 
+_Updated by fang0654 to make it run under Python3_
+
 ## Blog Post
 
 https://vincentyiu.co.uk/red-team/reconaissance/domlink-automating-domain-discovery
