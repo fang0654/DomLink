@@ -5,7 +5,7 @@ from argparse import ArgumentParser
 from requests import get
 import sys
 import os.path
-import urllib
+import urllib.parse as urllib
 import logging
 
 
